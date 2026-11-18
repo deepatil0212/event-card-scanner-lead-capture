@@ -1,8 +1,22 @@
 # Event Card Scanner & WhatsApp Lead Capture
 
-A lead-capture web app built for the ELASIA 2026 trade event. Staff photograph a visitor's business card, the app reads the contact details from the photo, a person checks them, the lead is saved and assigned to a salesperson, and the visitor receives a WhatsApp follow-up with a product-range PDF. Built at Eleczo India Pvt. Ltd.
+A lead-capture web app built for the ELASIA 2026 trade event. Staff photograph a visitor's business card, the app reads the contact details from the photo, a person checks them, the lead is saved, and the visitor receives a WhatsApp follow-up with a product-range PDF. Built at Eleczo India Pvt. Ltd.
 
-> **Showcase repository.** This repo contains documentation only. The source code is private because it belongs to my employer.
+> **Showcase repository.** This repo contains documentation only. The source code is private because it belongs to my employer. Screenshots use sample data.
+
+## Screenshots
+
+<p>
+  <img src="screen-1-scan.png" alt="Scan screen" width="24%">
+  <img src="screen-2-verify.png" alt="Verify details screen" width="24%">
+  <img src="screen-3-saved.png" alt="Saved confirmation" width="24%">
+</p>
+
+*Scan a card, review and correct the extracted details, then save and send the WhatsApp invitation.*
+
+![Admin dashboard](screen-4-admin.png)
+
+*Admin dashboard: totals, WhatsApp sent and failed counts, the card photo, contact details, and delivery status for every scan, with CSV export.*
 
 ## At a glance
 
@@ -13,9 +27,9 @@ A lead-capture web app built for the ELASIA 2026 trade event. Staff photograph a
 | **OCR** | Google Cloud Vision (text detection) |
 | **Database** | MySQL (`registrations` table) |
 | **Messaging** | Interakt WhatsApp Business API (template message with product-range PDF) |
-| **Frontend** | Server-rendered HTML templates and plain CSS |
+| **Frontend** | Server-rendered HTML templates and plain CSS, mobile first |
 | **Access** | QR code for quick phone access; Cloudflare Tunnel for public access |
-| **Deployment** | Windows server on the office network, port 5000 |
+| **Deployment** | Windows server, port 5000 |
 
 ## The problem
 
@@ -23,21 +37,20 @@ At an event, collecting visitor details by hand is slow and full of typing mista
 
 ## What I built
 
-- **Scan screen.** On a phone the Scan Card button opens the back camera; on a laptop it opens the file picker. A QR code gives quick access on phones.
+- **Scan screen.** On a phone the Scan Card button opens the back camera; on a laptop it opens the file picker. There is also a manual entry option, and an optional field to record who scanned. A QR code gives quick access on phones.
 - **OCR and field extraction.** The photo goes to Google Cloud Vision. A rule-based parser then picks out name, phone, email, company and designation from the raw text.
-- **Verify step.** The extracted details appear in an editable form, with the raw OCR text available, so a person corrects mistakes before anything is saved.
-- **Salesperson selector.** Each lead is assigned to the right person on the sales team, and the WhatsApp message is tagged to them.
+- **Verify step.** The extracted details appear in an editable form next to the card photo, with a Retake option and the raw OCR text available, so a person corrects mistakes before anything is saved.
 - **Save and send.** One button stores the lead in MySQL and sends the WhatsApp message through Interakt, with the product-range PDF. Sending can be switched off in configuration for testing.
-- **Admin dashboard.** A list of every scanned card, with CSV export.
+- **Admin dashboard.** Totals for all scans and today's scans, WhatsApp sent and failed counts, the card photo and details for every lead, the failure reason from WhatsApp when a send fails, and CSV export.
 - **Health pages.** `/debug` checks MySQL, Google Vision and Interakt one by one; `/healthz` is a quick database check.
 
 ## Architecture
 
-![Architecture](docs/images/architecture.png)
+![Architecture](architecture.png)
 
 ## How it works
 
-![Scan to invitation workflow](docs/images/workflow.png)
+![Scan to invitation workflow](workflow.png)
 
 ## Technical highlights
 
